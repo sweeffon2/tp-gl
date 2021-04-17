@@ -5,11 +5,17 @@
  */
 package org.emp.gl.timer.service;
 
+import java.beans.PropertyChangeListener;
+
 /**
  *
  * @author tina
  */
-public interface TimerChangeListener  {
+public interface TimerChangeListener 
+        // cette ligne est necessaire pour utiliser la delegation
+        // vu que le délégué à besoin de cette "capability" ! 
+        extends PropertyChangeListener         
+        {
     
     final static String DIXEME_DE_SECONDE_PROP = "dixième" ;
     final static String SECONDE_PROP = "seconde" ;

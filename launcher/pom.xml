@@ -47,6 +47,12 @@
       <version>0.0.1</version>
       <type>jar</type>
     </dependency>
+    <dependency>
+      <groupId>org.emp.gl</groupId>
+      <artifactId>timer-service-impl-delegation</artifactId>
+      <version>0.0.1</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
 
   <build>
