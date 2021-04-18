@@ -91,7 +91,7 @@ public class DummyTimeServiceImpl
 
         // informer les listeners ! 
         for (TimerChangeListener l : listeners) {
-            l.uniteChangee(TimerChangeListener.DIXEME_DE_SECONDE_PROP,
+            l.propertyChange(TimerChangeListener.DIXEME_DE_SECONDE_PROP,
                     oldValue, dixiemeDeSeconde);
         }
 
@@ -105,7 +105,7 @@ public class DummyTimeServiceImpl
         secondes = (secondes + 1) % 60;
 
         for (TimerChangeListener l : listeners) {
-            l.uniteChangee(TimerChangeListener.SECONDE_PROP,
+            l.propertyChange(TimerChangeListener.SECONDE_PROP,
                     oldValue, secondes);
         }
 
@@ -119,7 +119,7 @@ public class DummyTimeServiceImpl
         minutes = (minutes + 1) % 60;
 
         for (TimerChangeListener l : listeners) {
-            l.uniteChangee(TimerChangeListener.MINUTE_PROP,
+            l.propertyChange(TimerChangeListener.MINUTE_PROP,
                     oldValue, minutes);
         }
 
@@ -133,7 +133,7 @@ public class DummyTimeServiceImpl
         heures = (heures + 1) % 24;
 
         for (TimerChangeListener l : listeners) {
-            l.uniteChangee(TimerChangeListener.HEURE_PROP,
+            l.propertyChange(TimerChangeListener.HEURE_PROP,
                     oldValue, heures);
         }
     }
