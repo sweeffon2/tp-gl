@@ -6,35 +6,15 @@
 package org.emp.gl.core.launcher;
 
 import java.beans.PropertyChangeEvent;
+
 import org.emp.gl.core.lookup.Lookup;
 import org.emp.gl.timer.service.TimerChangeListener;
 import org.emp.gl.timer.service.TimerService;
 
 /**
- *
  * @author tina
  */
-public class CompteARebour implements TimerChangeListener {
-
-    private int compteArebours;
-
-    public CompteARebour(int compteARebour) {
-        this.compteArebours = compteARebour ;
-    }
-
-    @Override
-    public void propertyChange(String prop, Object oldValue, Object newValue) {
-        if (prop.equals(TimerChangeListener.SECONDE_PROP)) {
-            compteArebours--;
-            System.out.println("Il me reste : " + compteArebours);
-        }
-
-        if (compteArebours == 0) { // se désabonner du TimerService ! 
-            Lookup.getInstance()
-                    .getService(TimerService.class)
-                    .removeTimeChangeListener(this);
-        }
-    }
+public class CompteARebour {
 
 
 }

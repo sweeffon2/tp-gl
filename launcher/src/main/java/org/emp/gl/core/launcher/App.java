@@ -17,18 +17,11 @@ public class App {
 
     public static void main(String[] args) {
 
-        testDuTimeService();
+
     }
 
 
     private static void testDuTimeService() {
-
-        TimerService ts = Lookup.getInstance().getService(TimerService.class);
-
-        ts.addTimeChangeListener(new AfficheurHeureSurConsole());
-//        ts.addTimeChangeListener(new CompteARebour(5 + (int)(Math.random() * 10)));
-//        ts.addTimeChangeListener(new CompteARebour(5 + (int)(Math.random() * 10)));
-//        ts.addTimeChangeListener(new CompteARebour(5 + (int)(Math.random() * 10)));
 
     }
 
