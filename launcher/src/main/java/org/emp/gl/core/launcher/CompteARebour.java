@@ -36,11 +36,5 @@ public class CompteARebour implements TimerChangeListener {
         }
     }
 
-    // cette méthode provient du PropertyChangeListener 
-    // à utiliser plustard ! (Ignorer pour l'instant !
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

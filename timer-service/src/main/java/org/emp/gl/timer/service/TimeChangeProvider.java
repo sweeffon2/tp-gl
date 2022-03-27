@@ -13,5 +13,7 @@ public interface TimeChangeProvider {
 
     public void addTimeChangeListener(TimerChangeListener pl);
 
+    public void addTimeChangeListener(TimerChangeListener pl, String prop);
+
     public void removeTimeChangeListener(TimerChangeListener pl);
 }

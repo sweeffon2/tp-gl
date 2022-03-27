@@ -10,13 +10,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import lombok.Getter;
 import org.emp.gl.timer.service.TimerChangeListener;
 import org.emp.gl.timer.service.TimerService;
 
 /**
- *
  * @author tina
  */
+
 public class DummyTimeServiceImpl
         extends TimerTask
         implements TimerService {
@@ -33,15 +35,17 @@ public class DummyTimeServiceImpl
      */
     public DummyTimeServiceImpl() {
         Timer timer = new Timer();
+        timer.scheduleAtFixedRate(this, 100, 100);
+        setTimeValues();
+    }
 
+    private void setTimeValues() {
         LocalTime localTime = LocalTime.now();
 
-        secondes = localTime.getSecond();
-        minutes = localTime.getMinute();
-        heures = localTime.getHour();
-        dixiemeDeSeconde = localTime.getNano() / 100000000;
-
-        timer.scheduleAtFixedRate(this, 100, 100);
+        setSecondes(localTime.getSecond());
+        setMinutes(localTime.getMinute());
+        setHeures(localTime.getHour());
+        setDixiemeDeSeconde(localTime.getNano() / 100000000);
     }
 
     @Override
@@ -57,13 +61,95 @@ public class DummyTimeServiceImpl
     }
 
     @Override
+    public void addTimeChangeListener(TimerChangeListener pl, String prop) {
+        // TODO
+    }
+
+    @Override
     public void removeTimeChangeListener(TimerChangeListener pl) {
         listeners.remove(pl);
     }
 
+    private void timeChanged() {
+        setTimeValues();
+    }
+
+    public void setDixiemeDeSeconde(int newDixiemeDeSeconde) {
+        if (dixiemeDeSeconde == newDixiemeDeSeconde)
+            return;
+
+        int oldValue = dixiemeDeSeconde;
+        dixiemeDeSeconde = newDixiemeDeSeconde;
+
+        // informer les listeners !
+        dixiemeDeSecondesChanged(oldValue, dixiemeDeSeconde);
+    }
+
+    private void dixiemeDeSecondesChanged(int oldValue, int newValue) {
+        for (TimerChangeListener l : listeners) {
+            l.propertyChange(TimerChangeListener.DIXEME_DE_SECONDE_PROP,
+                    oldValue, dixiemeDeSeconde);
+        }
+    }
+
+
+    public void setSecondes(int newSecondes) {
+        if (secondes == newSecondes)
+            return;
+
+        int oldValue = secondes;
+        secondes = newSecondes;
+
+        secondesChanged(oldValue, secondes);
+    }
+
+    private void secondesChanged(int oldValue, int secondes) {
+
+        for (TimerChangeListener l : listeners) {
+            l.propertyChange(TimerChangeListener.SECONDE_PROP,
+                    oldValue, secondes);
+        }
+    }
+
+
+    public void setMinutes(int newMinutes) {
+        if (minutes == newMinutes)
+            return;
+
+        int oldValue = minutes;
+        minutes = newMinutes;
+
+        minutesChanged (oldValue, minutes) ;
+    }
+
+    private void minutesChanged(int oldValue, int minutes) {
+        for (TimerChangeListener l : listeners) {
+            l.propertyChange(TimerChangeListener.MINUTE_PROP,
+                    oldValue, minutes);
+        }
+    }
+
+    public void setHeures(int newHeures) {
+        if (heures == newHeures)
+            return;
+
+        int oldValue = heures;
+        heures = newHeures;
+
+        heuresChanged (oldValue, heures) ;
+    }
+
+    private void heuresChanged(int oldValue, int heures) {
+        for (TimerChangeListener l : listeners) {
+            l.propertyChange(TimerChangeListener.HEURE_PROP,
+                    oldValue, heures);
+        }
+    }
+
+
     @Override
-    public int getMinutes() {
-        return minutes;
+    public int getDixiemeDeSeconde() {
+        return dixiemeDeSeconde;
     }
 
     @Override
@@ -72,70 +158,12 @@ public class DummyTimeServiceImpl
     }
 
     @Override
-    public int getSecondes() {
-        return secondes;
+    public int getMinutes() {
+        return minutes;
     }
 
     @Override
-    public int getDixiemeDeSeconde() {
-        return dixiemeDeSeconde;
+    public int getSecondes() {
+        return secondes;
     }
-
-    private void timeChanged() {
-        updateDixiemeDeSecode();
-    }
-
-    private void updateDixiemeDeSecode() {
-        int oldValue = dixiemeDeSeconde;
-        dixiemeDeSeconde = (dixiemeDeSeconde + 1) % 10;
-
-        // informer les listeners ! 
-        for (TimerChangeListener l : listeners) {
-            l.propertyChange(TimerChangeListener.DIXEME_DE_SECONDE_PROP,
-                    oldValue, dixiemeDeSeconde);
-        }
-
-        if (dixiemeDeSeconde == 0) {
-            updateSecode();
-        }
-    }
-
-    private void updateSecode() {
-        int oldValue = secondes;
-        secondes = (secondes + 1) % 60;
-
-        for (TimerChangeListener l : listeners) {
-            l.propertyChange(TimerChangeListener.SECONDE_PROP,
-                    oldValue, secondes);
-        }
-
-        if (secondes == 0) {
-            updateMinutes();
-        }
-    }
-
-    private void updateMinutes() {
-        int oldValue = minutes;
-        minutes = (minutes + 1) % 60;
-
-        for (TimerChangeListener l : listeners) {
-            l.propertyChange(TimerChangeListener.MINUTE_PROP,
-                    oldValue, minutes);
-        }
-
-        if (minutes == 0) {
-            updateHeures();
-        }
-    }
-
-    private void updateHeures() {
-        int oldValue = heures;
-        heures = (heures + 1) % 24;
-
-        for (TimerChangeListener l : listeners) {
-            l.propertyChange(TimerChangeListener.HEURE_PROP,
-                    oldValue, heures);
-        }
-    }
-
 }

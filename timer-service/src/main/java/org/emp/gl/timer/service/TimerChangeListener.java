@@ -12,9 +12,7 @@ import java.beans.PropertyChangeListener;
  *
  * @author tina
  */
-public interface TimerChangeListener  
-        extends PropertyChangeListener
-{
+public interface TimerChangeListener {
     
     final static String DIXEME_DE_SECONDE_PROP = "dixième" ;
     final static String SECONDE_PROP = "seconde" ;
@@ -22,7 +20,6 @@ public interface TimerChangeListener
     final static String HEURE_PROP = "heure" ;
 
 
-    // cette méthode sera supprimé et remplacé par celle provenant du PropertyChangeListener
     void propertyChange (String propertyName, Object oldValue, Object newValue) ;
                   
 }

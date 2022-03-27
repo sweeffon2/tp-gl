@@ -11,8 +11,6 @@ import org.emp.gl.timer.service.TimerService;
  */
 public class App {
 
-    // ce code nous permettra d'enregistrer les service que notre application utilsiera 
-    // lors de l'execution
     static {
         Lookup.getInstance().register(TimerService.class, new DummyTimeServiceImpl());
     }
@@ -28,6 +26,8 @@ public class App {
         TimerService ts = Lookup.getInstance().getService(TimerService.class);
 
         ts.addTimeChangeListener(new AfficheurHeureSurConsole());
+//        ts.addTimeChangeListener(new CompteARebour(5 + (int)(Math.random() * 10)));
+//        ts.addTimeChangeListener(new CompteARebour(5 + (int)(Math.random() * 10)));
 //        ts.addTimeChangeListener(new CompteARebour(5 + (int)(Math.random() * 10)));
 
     }

@@ -25,11 +25,4 @@ public class AfficheurHeureSurConsole implements TimerChangeListener {
                 + ts.getSecondes() + "," + ts.getDixiemeDeSeconde());
     }
 
-    // cette méthode provient du PropertyChangeListener 
-    // à utiliser plustard ! 
-    @Override
-    public void propertyChange(PropertyChangeEvent pce) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
