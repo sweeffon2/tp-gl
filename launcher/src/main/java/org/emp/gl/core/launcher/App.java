@@ -1,6 +1,8 @@
 package org.emp.gl.core.launcher;
 
 import org.emp.gl.core.lookup.Lookup;
+import org.emp.gl.gui.ButtonViewer;
+import org.emp.gl.gui.WatchViewer;
 import org.emp.gl.time.service.impl.DummyTimeServiceImpl;
 import org.emp.gl.timer.service.TimerChangeListener;
 import org.emp.gl.timer.service.TimerService;
@@ -17,16 +19,17 @@ public class App {
 
     public static void main(String[] args) {
 
-
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                WatchViewer w1 = new WatchViewer();
+                w1.setVisible(true);
+                w1.setLocation(200, 100);
+                WatchViewer w2 = new WatchViewer();
+                w2.setVisible(true);
+                w2.setLocation(600, 100);
+                new ButtonViewer().setVisible(true);
+            }
+        });
     }
 
-
-    private static void testDuTimeService() {
-
-    }
-
-    public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
 }

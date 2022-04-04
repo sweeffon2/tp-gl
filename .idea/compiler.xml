@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="time-service-impl" />
         <module name="timer-service" />
+        <module name="Gui" />
         <module name="core-lookup" />
         <module name="launcher" />
       </profile>

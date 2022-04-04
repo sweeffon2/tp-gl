@@ -5,6 +5,8 @@
  */
 package org.emp.gl.core.lookup;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ import java.util.Map;
 public class Lookup {
     
     Map<Class, Object> services = new HashMap<>() ; 
+    PropertyChangeSupport pcs = new PropertyChangeSupport(this) ;
     
     public <T> void register (Class<? super T> service, T instance){
         services.put(service, instance) ;
@@ -35,5 +38,13 @@ public class Lookup {
     private static class LookupHolder {
 
         private static final Lookup INSTANCE = new Lookup();
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        pcs.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        pcs.removePropertyChangeListener(listener);
     }
 }
