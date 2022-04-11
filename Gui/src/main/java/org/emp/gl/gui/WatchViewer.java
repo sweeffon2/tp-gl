@@ -4,6 +4,8 @@
  */
 package org.emp.gl.gui;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import org.emp.gl.core.lookup.Lookup;
 import org.emp.gl.timer.service.TimerChangeListener;
 import org.emp.gl.timer.service.TimerService;
@@ -22,6 +24,20 @@ public class WatchViewer extends javax.swing.JFrame implements TimerChangeListen
     public WatchViewer() {
         initComponents();
         Lookup.getInstance().getService(TimerService.class).addTimeChangeListener(this);
+        
+        
+        addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent fe) {
+                addAsListener (fe) ;
+            }
+
+            @Override
+            public void focusLost(FocusEvent fe) {
+                //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+        });
         hh.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getHeures()));
         mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getMinutes()));
     }
@@ -61,28 +77,52 @@ public class WatchViewer extends javax.swing.JFrame implements TimerChangeListen
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+    private void addAsListener(FocusEvent fe) {
+        Lookup.getInstance().register(WatchViewer.class, this);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel hh;
     private javax.swing.JLabel mm;
     private javax.swing.JLabel sep;
+    // End of variables declaration//GEN-END:variables
 
-
-
+    boolean modeSecondes = false ; 
+    
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.HEURE_PROP))
-            hh.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getHeures()));
-        if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.MINUTE_PROP))
-            mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getMinutes()));
-        if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.SECONDE_PROP)) {
-            if (Lookup.getInstance().getService(TimerService.class).getSecondes()%2 == 0) {
-                sep.setText(":");
+        if (! modeSecondes) {
+            if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.HEURE_PROP))
+                hh.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getHeures()));
+            if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.MINUTE_PROP))
+                mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getMinutes()));
+            if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.SECONDE_PROP)) {
+                if (Lookup.getInstance().getService(TimerService.class).getSecondes()%2 == 0) {
+                    sep.setText(":");
+                }
+                else sep.setText(" ");
             }
-            else sep.setText("-");
+        } else {
+            if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.SECONDE_PROP)) {
+                mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getSecondes()));
+                if (Lookup.getInstance().getService(TimerService.class).getSecondes()%2 == 0) {
+                    sep.setText(":");
+                }
+                else sep.setText(" ");
+            }            
         }
 
     }
-    // End of variables declaration//GEN-END:variables
+    
+    public void changeModeSecondes () {
+        modeSecondes = !modeSecondes ; 
+        if (modeSecondes){
+            hh.setText("  "); 
+            mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getSecondes()));
+        }
+        else {
+            hh.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getHeures()));
+            mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getMinutes()));
+        }
+    }
 }

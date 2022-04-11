@@ -4,6 +4,8 @@
  */
 package org.emp.gl.gui;
 
+import org.emp.gl.core.lookup.Lookup;
+
 /**
  *
  * @author sweeffon
@@ -27,16 +29,21 @@ public class ButtonViewer extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jButton1 = new javax.swing.JButton();
+        setButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jButton1.setText("Set");
+        setButton.setText("Set");
+        setButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setButtonActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(21, 2, 21, 2);
-        getContentPane().add(jButton1, gridBagConstraints);
+        getContentPane().add(setButton, gridBagConstraints);
 
         jButton2.setText("Mode");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -47,6 +54,13 @@ public class ButtonViewer extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setButtonActionPerformed
+        // TODO add your handling code here:
+        WatchViewer viewer = Lookup.getInstance().getService(WatchViewer.class);
+        if (viewer != null)
+            viewer.changeModeSecondes();
+    }//GEN-LAST:event_setButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -84,7 +98,7 @@ public class ButtonViewer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton setButton;
     // End of variables declaration//GEN-END:variables
 }
