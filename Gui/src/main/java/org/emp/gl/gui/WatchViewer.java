@@ -11,6 +11,8 @@ import org.emp.gl.timer.service.TimerChangeListener;
 import org.emp.gl.timer.service.TimerService;
 
 import java.beans.PropertyChangeEvent;
+import java.util.logging.Logger;
+import org.emp.gl.model.Watch;
 
 /**
  *
@@ -21,15 +23,18 @@ public class WatchViewer extends javax.swing.JFrame implements TimerChangeListen
     /**
      * Creates new form WatchViewer
      */
+    Watch watch = new Watch();
+    
+    Logger logger = Logger.getLogger(WatchViewer.class.getName()) ;
+
     public WatchViewer() {
         initComponents();
         Lookup.getInstance().getService(TimerService.class).addTimeChangeListener(this);
-        
-        
+
         addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent fe) {
-                addAsListener (fe) ;
+                addAsListener(fe);
             }
 
             @Override
@@ -38,8 +43,6 @@ public class WatchViewer extends javax.swing.JFrame implements TimerChangeListen
             }
 
         });
-        hh.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getHeures()));
-        mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getMinutes()));
     }
 
     /**
@@ -87,42 +90,29 @@ public class WatchViewer extends javax.swing.JFrame implements TimerChangeListen
     private javax.swing.JLabel sep;
     // End of variables declaration//GEN-END:variables
 
-    boolean modeSecondes = false ; 
-    
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        if (! modeSecondes) {
-            if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.HEURE_PROP))
-                hh.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getHeures()));
-            if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.MINUTE_PROP))
-                mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getMinutes()));
-            if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.SECONDE_PROP)) {
-                if (Lookup.getInstance().getService(TimerService.class).getSecondes()%2 == 0) {
-                    sep.setText(":");
-                }
-                else sep.setText(" ");
-            }
-        } else {
-            if (propertyChangeEvent.getPropertyName().equals(TimerChangeListener.SECONDE_PROP)) {
-                mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getSecondes()));
-                if (Lookup.getInstance().getService(TimerService.class).getSecondes()%2 == 0) {
-                    sep.setText(":");
-                }
-                else sep.setText(" ");
-            }            
-        }
 
+        updateView(); 
+        if (Lookup.getInstance().getService(TimerService.class).getSecondes() % 2 == 0) {
+            sep.setText(":");
+        } else {
+            sep.setText(" ");
+        }
     }
-    
-    public void changeModeSecondes () {
-        modeSecondes = !modeSecondes ; 
-        if (modeSecondes){
-            hh.setText("  "); 
-            mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getSecondes()));
-        }
-        else {
-            hh.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getHeures()));
-            mm.setText(String.format("%2d", Lookup.getInstance().getService(TimerService.class).getMinutes()));
-        }
+
+    public void set() {
+        watch.set();
+        updateView();
+    }
+
+    public void mode() {
+        watch.mode();
+        updateView();
+    }
+
+    private void updateView() {
+        hh.setText(String.format("%2d", watch.getValueForFirstPlace()));
+        mm.setText(String.format("%2d", watch.getValueForSecondePlace()));
     }
 }

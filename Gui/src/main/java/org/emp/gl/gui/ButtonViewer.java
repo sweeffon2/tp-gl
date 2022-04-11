@@ -46,6 +46,11 @@ public class ButtonViewer extends javax.swing.JFrame {
         getContentPane().add(setButton, gridBagConstraints);
 
         jButton2.setText("Mode");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -59,8 +64,15 @@ public class ButtonViewer extends javax.swing.JFrame {
         // TODO add your handling code here:
         WatchViewer viewer = Lookup.getInstance().getService(WatchViewer.class);
         if (viewer != null)
-            viewer.changeModeSecondes();
+            viewer.set();
     }//GEN-LAST:event_setButtonActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        WatchViewer viewer = Lookup.getInstance().getService(WatchViewer.class);
+        if (viewer != null)
+            viewer.mode();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
